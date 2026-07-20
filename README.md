@@ -6,7 +6,7 @@ Informe del laboratorio de **Observabilidad de Microservicios con Grafana, Prome
 
 ---
 
-## 1. ¿De qué trata este laboratorio?
+## 1. Introducción
 
 La idea central es entender la diferencia entre **monitorear** (saber si algo está prendido o apagado, o si supera un umbral) y **observar** (poder investigar *por qué* algo está pasando, aunque no lo hayamos previsto antes).
 
@@ -133,7 +133,7 @@ curl http://localhost:8081/orders/simulate-error
 
 Todo respondió como se esperaba: `/actuator/health` devolvió `{"status":"UP"}`, y `/actuator/prometheus` mostró métricas técnicas (`jvm_memory_used_bytes`, `process_cpu_usage`, `http_server_requests_seconds_count`) y las de negocio (`orders_failed_total`).
 
-> **Hallazgo importante:** en la guía el contador se llama `orders_created_total`, pero al mirar la salida real del endpoint `/actuator/prometheus`, ese contador aparece como **`orders_total`** (sin la palabra "created"). Esto no es un error del código: Micrometer le quita automáticamente la palabra `created` a los contadores, porque en el estándar OpenMetrics esa palabra está reservada para otro tipo de métrica interna. Por eso, en el dashboard de Grafana y en las consultas de este informe se usa `orders_total` en vez de `orders_created_total`. Es un buen ejemplo real de por qué la observabilidad requiere *verificar* lo que la aplicación expone y no solo confiar en la documentación.
+
 
 ### 3.5 Configuración de Prometheus
 
@@ -264,7 +264,7 @@ Estas tres se configuran en Grafana desde **Alerting → Alert rules**, usando c
 
 ---
 
-## 6. Observabilidad en una arquitectura más grande (ejercicio conceptual)
+## 6. Observabilidad en una arquitectura más grande (ejercicio )
 
 La guía plantea un caso con 5 servicios: `order-service`, `payment-service`, `inventory-service`, `notification-service`, `shipping-service`. Aplicando lo aprendido en este laboratorio:
 
