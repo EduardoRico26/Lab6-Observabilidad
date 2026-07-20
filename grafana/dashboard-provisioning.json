@@ -1,0 +1,67 @@
+{
+  "dashboard": {
+    "id": null,
+    "uid": "arsw-observabilidad",
+    "title": "ARSW - Observabilidad de Microservicios",
+    "timezone": "browser",
+    "refresh": "5s",
+    "time": { "from": "now-15m", "to": "now" },
+    "panels": [
+      {
+        "id": 1, "title": "Estado del servicio", "type": "stat",
+        "gridPos": { "h": 6, "w": 6, "x": 0, "y": 0 },
+        "datasource": { "type": "prometheus", "uid": "bfs3sf5x3gjy8a" },
+        "targets": [{ "expr": "up{job=\"observability-demo\"}", "refId": "A" }]
+      },
+      {
+        "id": 5, "title": "Pedidos creados", "type": "stat",
+        "gridPos": { "h": 6, "w": 6, "x": 6, "y": 0 },
+        "datasource": { "type": "prometheus", "uid": "bfs3sf5x3gjy8a" },
+        "targets": [{ "expr": "orders_total", "refId": "A" }]
+      },
+      {
+        "id": 6, "title": "Pedidos fallidos", "type": "stat",
+        "gridPos": { "h": 6, "w": 6, "x": 12, "y": 0 },
+        "datasource": { "type": "prometheus", "uid": "bfs3sf5x3gjy8a" },
+        "targets": [{ "expr": "orders_failed_total", "refId": "A" }]
+      },
+      {
+        "id": 4, "title": "Errores HTTP 500", "type": "timeseries",
+        "gridPos": { "h": 6, "w": 6, "x": 18, "y": 0 },
+        "datasource": { "type": "prometheus", "uid": "bfs3sf5x3gjy8a" },
+        "targets": [{ "expr": "sum(rate(http_server_requests_seconds_count{status=\"500\"}[1m]))", "refId": "A" }]
+      },
+      {
+        "id": 2, "title": "Solicitudes HTTP por endpoint", "type": "timeseries",
+        "gridPos": { "h": 8, "w": 12, "x": 0, "y": 6 },
+        "datasource": { "type": "prometheus", "uid": "bfs3sf5x3gjy8a" },
+        "targets": [{ "expr": "sum by (uri, method, status) (rate(http_server_requests_seconds_count[1m]))", "refId": "A" }]
+      },
+      {
+        "id": 3, "title": "Latencia promedio", "type": "timeseries",
+        "gridPos": { "h": 8, "w": 12, "x": 12, "y": 6 },
+        "datasource": { "type": "prometheus", "uid": "bfs3sf5x3gjy8a" },
+        "targets": [{ "expr": "sum(rate(http_server_requests_seconds_sum[1m])) / sum(rate(http_server_requests_seconds_count[1m]))", "refId": "A" }]
+      },
+      {
+        "id": 7, "title": "Memoria usada por JVM", "type": "timeseries",
+        "gridPos": { "h": 8, "w": 12, "x": 0, "y": 14 },
+        "datasource": { "type": "prometheus", "uid": "bfs3sf5x3gjy8a" },
+        "targets": [{ "expr": "sum(jvm_memory_used_bytes{application=\"observability-demo\"})", "refId": "A" }]
+      },
+      {
+        "id": 8, "title": "Uso de CPU del proceso", "type": "timeseries",
+        "gridPos": { "h": 8, "w": 12, "x": 12, "y": 14 },
+        "datasource": { "type": "prometheus", "uid": "bfs3sf5x3gjy8a" },
+        "targets": [{ "expr": "process_cpu_usage{application=\"observability-demo\"}", "refId": "A" }]
+      },
+      {
+        "id": 9, "title": "Logs de la aplicacion (Loki)", "type": "logs",
+        "gridPos": { "h": 8, "w": 24, "x": 0, "y": 22 },
+        "datasource": { "type": "loki", "uid": "cfs3sf600cagwd" },
+        "targets": [{ "expr": "{job=\"observability-demo\"}", "refId": "A" }]
+      }
+    ]
+  },
+  "overwrite": true
+}

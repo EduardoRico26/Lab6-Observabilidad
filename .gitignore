@@ -22,3 +22,14 @@
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 replay_pid*
+
+# Maven build output
+target/
+
+# Logs generados por la aplicación (leídos por Promtail)
+app/observability-demo/logs/
+
+# IDE
+.idea/
+*.iml
+.vscode/
